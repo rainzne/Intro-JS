@@ -8,6 +8,7 @@ let currentLevelIndex = 0;
 let players = [];
 let obstacles = [];
 let bonus = [];
+let malus = [];
 let goal;
 let countdown = 5;
 
@@ -19,7 +20,7 @@ function init() {
         new Player(50, 50, "red", { up: "z", down: "s", left: "q", right: "d" }),
         new Player(100, 50, "blue", { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }),
     ];
-    level_data = [new Level([ obstacles=[ new Obstacle(750, 150, 50, 300), new Obstacle(400, 100, 50, 300),], goal = new Goal(750, 550),bonus =  [new Bonus(300,200,50,55)], malus = []]),new Level([ obstacles=[ new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),], goal = new Goal(750, 550), bonus =  [new Bonus(300,200,50,55)], malus = []])]
+    level_data = [new Level([ obstacles=[ new Obstacle(750, 150, 50, 300), new Obstacle(400, 100, 50, 300),], goal = new Goal(750, 550),bonus =  [new Bonus(300,200,50,55)], malus = []]),new Level([ obstacles=[ new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),], goal = new Goal(750, 550), bonus =  [new Bonus(300,200,50,55)], malus = [new Malus(400,200,100,70)]])];
     
     startCountdown();
     console.log("init");
@@ -51,6 +52,7 @@ function gameLoop() {
     // Dessine les obstacles
     obstacles.forEach(obstacle => obstacle.draw(ctx));
     bonus.forEach(bonus => bonus.draw(ctx));
+    malus.forEach(malus => malus.draw(ctx));
 
     // Dessine la sortie
     goal.draw(ctx);
@@ -85,12 +87,30 @@ function gameLoop() {
                 player.y < singleBonus.y + singleBonus.height &&
                 player.y + player.size > singleBonus.y
             ) {
-                player.speed = 2; // Boost de vitesse
+                player.speed = 2.3; // Boost de vitesse
                 setTimeout(() => {
-                    player.speed = 1.7; // Vitesse normale après 3 secondes
+                    player.speed = 2; // Vitesse normale après 3 secondes
                 }, 3000);
             }
         });
+        
+        malus.forEach(SingleMalus => {
+            if (
+                player.x < SingleMalus.x + SingleMalus.width &&
+                player.x + player.size > SingleMalus.x &&
+                player.y < SingleMalus.y + SingleMalus.height &&
+                player.y + player.size > SingleMalus.y
+            ) {
+                player.speed = 1; // Ralentissement
+                setTimeout(() => {
+                    player.speed = 2; // Vitesse normale après 3 secondes
+                }, 1500);
+            }
+        }
+
+        )
+
+        
        
         
     });
