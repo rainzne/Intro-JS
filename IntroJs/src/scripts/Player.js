@@ -4,7 +4,7 @@ class Player {
         this.y = y;
         this.size = 20;
         this.color = color;
-        this.speed = 1.7;
+        this.speed = 2;
         this.controls = controls;
         this.dx = 0;
         this.dy = 0;
