@@ -1,4 +1,5 @@
 let level_data= [];
+let levelCompleted = false;
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = 800;
@@ -16,12 +17,39 @@ let countdown = 5;
 
 // Initialisation
 function init() {
-    players = [
-        new Player(50, 50, "red", { up: "z", down: "s", left: "q", right: "d" }),
-        new Player(100, 50, "blue", { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }),
-    ];
-    level_data = [new Level([ obstacles=[ new Obstacle(750, 150, 50, 300), new Obstacle(400, 100, 50, 300),], goal = new Goal(750, 550),bonus =  [new Bonus(300,200,50,55)], malus = []]),new Level([ obstacles=[ new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),], goal = new Goal(750, 550), bonus =  [new Bonus(300,200,50,55)], malus = [new Malus(400,200,100,70)]])];
     
+    players = [
+        new Player(1, 1, "red", { up: "z", down: "s", left: "q", right: "d" }),
+        new Player(1, 1, "blue", { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }),
+    ];
+    level_data = [new Level([
+         new Obstacle(750, 150, 50, 300), new Obstacle(400, 100, 50, 300),],
+         new Goal(750, 550),
+         [new Bonus(300,200,50,55)],
+          []),
+          
+          new Level( [
+             new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),],
+             new Goal(750, 550),
+            [new Bonus(300,200,50,55)],
+            [new Malus(400,200,100,70)]),
+
+            new Level( [
+                new Obstacle(200, 100, 300, 300), new Obstacle(600, 100, 100, 300),],
+                new Goal(750, 550),
+               [new Bonus(300,600,50,55)],
+               [new Malus(100,50,100,100)])
+            
+            
+
+
+
+            ]
+
+
+
+    const levelInstance = level_data[0]; 
+    levelInstance.loadLevel(currentLevelIndex);
     startCountdown();
     console.log("init");
  
@@ -47,7 +75,9 @@ function startCountdown() {
 
 // Boucle du jeu
 function gameLoop() {
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 
     // Dessine les obstacles
     obstacles.forEach(obstacle => obstacle.draw(ctx));
@@ -73,13 +103,27 @@ function gameLoop() {
             player.y < goal.y + goal.size &&
             player.y + player.size > goal.y - goal.size
         ) {
+            if (!levelCompleted){
+                levelCompleted = true;
             document.getElementById("countdown").textContent = `${player.color} a gagné le niveau ${currentLevelIndex + 1} !`;
+            document.getElementById("scores").textContent = `${player.color} a gagné ${4} points!`;
 
             setTimeout(() => {
-                currentLevelIndex++;  // ICI VOIR A MODIFIER
-                loadLevel(currentLevelIndex); // Passe au niveau suivant
-            }, 2000); // Petite pause avant de charger le prochain niveau
+                currentLevelIndex++;
+
+                if (currentLevelIndex < level_data.length) {
+                    levelCompleted = false;
+                    const nextLevel = level_data[currentLevelIndex];
+                    
+                    nextLevel.loadLevel(currentLevelIndex);
+                } else {
+                    document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
+                    return;
+
+                }
+            }, 2000);
         }
+    }
         bonus.forEach(singleBonus => {
             if (
                 player.x < singleBonus.x + singleBonus.width &&

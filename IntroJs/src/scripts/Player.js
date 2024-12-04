@@ -2,7 +2,7 @@ class Player {
     constructor(x, y, color, controls) {
         this.x = x;
         this.y = y;
-        this.size = 20;
+        this.size = 10;
         this.color = color;
         this.speed = 2;
         this.controls = controls;
