@@ -4,7 +4,7 @@ const playerStartPositions = [
 ];
 
 class Level {
-    constructor(obstacles, goal, bonus = [], malus = []) {
+    constructor(obstacles, goal, bonus = [], malus = [],InverseControl = []) {
         this.obstacles = obstacles;
         this.goal = goal;
         this.bonus = bonus;

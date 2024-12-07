@@ -1,3 +1,17 @@
+// let nbPlayers = getLocalStorageData("nbPlayers");
+// if(nbPlayers <= 0){
+//     nbPlayers = 1;
+// }
+
+// // Ajouter les joueurs à la liste des joueurs
+// for(let i = 0; i < nbPlayers; i++){
+//     players.push(new Player(30, 30, 0, height, colors[i], 0, 1, controllers[i]))
+// }
+
+
+
+
+
 let level_data= [];
 let levelCompleted = false;
 const canvas = document.getElementById("game-canvas");
@@ -10,6 +24,7 @@ let players = [];
 let obstacles = [];
 let bonus = [];
 let malus = [];
+let InverseControl = [];
 let goal;
 let countdown = 5;
 
@@ -83,6 +98,7 @@ function gameLoop() {
     obstacles.forEach(obstacle => obstacle.draw(ctx));
     bonus.forEach(bonus => bonus.draw(ctx));
     malus.forEach(malus => malus.draw(ctx));
+    // InverseControl.forEach(InverseControl => InverseControl.draw(ctx));     //---------------
 
     // Dessine la sortie
     goal.draw(ctx);
@@ -90,8 +106,9 @@ function gameLoop() {
     // Gestion des joueurs
     players.forEach(player => {
         obstacles.forEach(obstacle => player.handleCollisionWithObstacle(obstacle));
-        player.move();
+       
         player.draw(ctx);
+        player.move();
     });
     
 
@@ -131,9 +148,9 @@ function gameLoop() {
                 player.y < singleBonus.y + singleBonus.height &&
                 player.y + player.size > singleBonus.y
             ) {
-                player.speed = 2.3; // Boost de vitesse
+                player.speed = 1.7; // Boost de vitesse
                 setTimeout(() => {
-                    player.speed = 2; // Vitesse normale après 3 secondes
+                    player.speed = 1.5; // Vitesse normale après 3 secondes
                 }, 3000);
             }
         });
@@ -147,13 +164,26 @@ function gameLoop() {
             ) {
                 player.speed = 1; // Ralentissement
                 setTimeout(() => {
-                    player.speed = 2; // Vitesse normale après 3 secondes
+                    player.speed = 1.5; // Vitesse normale après 3 secondes
+                }, 1500);
+            }
+        });
+        InverseControl.forEach(SingleInverseControl => {
+            if (
+                player.x < SingleInverseControl.x + SingleInverseControl.width &&
+                player.x + player.size > SingleInverseControl.x &&
+                player.y < SingleInverseControl.y + SingleInverseControl.height &&
+                player.y + player.size > SingleInverseControl.y
+            ) {
+                player.speed = 1.7; // Ralentissement
+                setTimeout(() => {
+                    player.speed = 1.7; // Vitesse normale après 3 secondes
                 }, 1500);
             }
         }
 
-        )
-
+            );
+    
         
        
         
