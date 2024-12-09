@@ -1,6 +1,8 @@
 const playerStartPositions = [
-    { x: 10, y: 10 }, // Position de départ du joueur 1
-    { x: 10, y: 10 } // Position de départ du joueur 2
+    { x: 10, y: 10 }, 
+    { x: 10, y: 10 },
+    { x: 10, y: 10 }, 
+    { x: 10, y: 10 } 
 ];
 
 class Level {

@@ -34,14 +34,14 @@ class Player {
         const nextX = this.x + this.dx * this.speed;
         const nextY = this.y + this.dy * this.speed;
     
-        // Vérifie si une collision se produit
+        
         const collidesX = nextX < obstacle.x + obstacle.width &&
                           nextX + this.size > obstacle.x;
         const collidesY = nextY < obstacle.y + obstacle.height &&
                           nextY + this.size > obstacle.y;
     
         if (collidesX && collidesY) {
-            // Détermine les côtés du joueur et de l'obstacle
+            
             const playerTop = nextY;
             const playerBottom = nextY + this.size;
             const playerLeft = nextX;
@@ -52,11 +52,12 @@ class Player {
             const obstacleLeft = obstacle.x;
             const obstacleRight = obstacle.x + obstacle.width;
     
-            // Trouve le côté du joueur qui touche l'obstacle
+            
             const overlapTop = playerBottom - obstacleTop;
             const overlapBottom = obstacleBottom - playerTop;
             const overlapLeft = playerRight - obstacleLeft;
             const overlapRight = obstacleRight - playerLeft;
+            
     
             // Trouve le côté avec le plus petit chevauchement
             const minOverlap = Math.min(overlapTop, overlapBottom, overlapLeft, overlapRight);

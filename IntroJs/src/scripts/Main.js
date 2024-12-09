@@ -28,15 +28,58 @@ let InverseControl = [];
 let goal;
 let countdown = 5;
 
+function getLocalStorageData(key){
+
+    let data = localStorage.getItem(key);
+
+    if(data != null){
+        return data;
+    }
+    else{
+        localStorage.setItem(key, 0);
+        return localStorage.getItem(key);
+    }
+
+}
+
+// Fonction pour enregistrer une valeur dans la localStorage en utilsant une paire clé-valeur
+function setLocalStorageData(key, value){
+
+    let data = localStorage.getItem(key);
+
+    if(data == null){
+        localStorage.setItem(key, value)
+    }
+    else if(data === value){
+        //do nothing
+        console.log("Valeur inchangée dans le localStorage");
+    }
+    else{
+        localStorage.setItem(key, value);
+    }
+}
+
+
 
 
 // Initialisation
 function init() {
+    const playerColors = ["red", "blue", "green", "yellow"];
+const playerControls = [
+    { up: "z", down: "s", left: "q", right: "d" },
+    { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" },
+    { up: "5", down: "2", left: "1", right: "3" },
+    { up: "i", down: "k", left: "j", right: "l" },
+];
     
-    players = [
-        new Player(1, 1, "red", { up: "z", down: "s", left: "q", right: "d" }),
-        new Player(1, 1, "blue", { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }),
-    ];
+    let nbPlayers = getLocalStorageData("nbPlayers");
+    
+
+    // Ajouter les joueurs à la liste des joueurs
+    for(let i = 0; i < nbPlayers; i++){
+        players.push(new Player(1,1,playerColors[i], playerControls[i]))
+    }
+
     level_data = [new Level([
          new Obstacle(750, 150, 50, 300), new Obstacle(400, 100, 50, 300),],
          new Goal(750, 550),
@@ -88,19 +131,19 @@ function startCountdown() {
     }, 1000);
 }
 
-// Boucle du jeu
+
 function gameLoop() {
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
-    // Dessine les obstacles
+    
     obstacles.forEach(obstacle => obstacle.draw(ctx));
     bonus.forEach(bonus => bonus.draw(ctx));
     malus.forEach(malus => malus.draw(ctx));
     // InverseControl.forEach(InverseControl => InverseControl.draw(ctx));     //---------------
 
-    // Dessine la sortie
+    
     goal.draw(ctx);
 
     // Gestion des joueurs
@@ -112,7 +155,7 @@ function gameLoop() {
     });
     
 
-    // Détection de victoire
+    // Détection de beaucoup de chose : collision avec les obstacles, le but, les bonus, les malus, les InverseControl
     players.forEach(player => {
         if (
             player.x < goal.x + goal.size &&
