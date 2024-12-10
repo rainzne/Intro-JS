@@ -1,9 +1,9 @@
 class Bonus {
     constructor(x, y, width, height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.x = x*32;
+        this.y = y*32;
+        this.width = width*32;
+        this.height = height*32;
         this.color = "lightgreen";
         this.img = new Image();
         this.img.src = './textures/tiles/boost.png';

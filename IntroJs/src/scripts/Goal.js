@@ -1,7 +1,7 @@
 class Goal {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        this.x = x*32;
+        this.y = y*32;
         this.size = 30;
         this.color = "#00f";
     }

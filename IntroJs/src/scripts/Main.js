@@ -24,7 +24,7 @@ let bonus = [];
 let malus = [];
 let InverseControl = [];
 let goal;
-let countdown = 5;
+let countdown = 0;
 
 background = new Image(32,32);
 background.src = './textures/tiles/background.png';
@@ -60,21 +60,20 @@ function setLocalStorageData(key, value){
     }
 }
 
-function getJson(url){
-    fetch(url)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  }).then((jsonData) => {
-    console.log('JSON Data:', jsonData);
-  }).catch((error) => {
-    console.error('Error fetching or parsing JSON:', error);
-  });
+async function getLevelData(url){
+    fetch(url).then((response) => {
+        if(response.ok){
+            return response.json();
+        }else{
+            throw new Error("Erreur de chargement des données");
+        }
+    }).then((data) => {
+        console.log(data);
+        return data;
+    }).catch((error) => {
+        console.error(error);
+    });
 }
-
-
 
 // Initialisation
 function init() {
@@ -90,30 +89,28 @@ const playerControls = [
     
     // Ajouter les joueurs à la liste des joueurs
     for(let i = 0; i < nbPlayers; i++){
-        players.push(new Player(1,1,playerColors[i], playerControls[i]))
+        players.push(new Player(1,1,playerColors[i], playerControls[i]));
     }
 
-    //const level1 = getJson('./levels_data/level1.json'); TO DO read JSON to LEVELS
-    //level_data = [new Level(level1)];
-
-    //level_data = [new Level([
-    //    new Obstacle(750, 150, 50, 300), new Obstacle(400, 100, 50, 300),],
-    //    new Goal(750, 550),
-    //    [new Bonus(300,200,50,55)],
-    //    []),
-    //      
-    //    new Level( [
-    //        new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),],
-    //        new Goal(750, 550),
-    //        [new Bonus(300,200,50,55)],
-    //        [new Malus(400,200,100,70)]),
-    //
-    //    new Level( [
-    //        new Obstacle(200, 100, 300, 300), new Obstacle(600, 100, 100, 300),],
-    //        new Goal(750, 550),
-    //        [new Bonus(300,600,50,55)],
-    //        [new Malus(100,50,100,100)])
-    //        ]
+    // Récupérer les données des niveaux
+    level_data = [new Level(
+        [new Obstacle(0, 5, 15, 1), new Obstacle(10, 12, 15, 1),new Obstacle(10,13,1,5),new Obstacle(20,18,1,7)],
+        new Goal(23, 22),
+        [new Bonus(10,6,2,6)],
+        []),
+          
+        new Level( [
+            new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),],
+            new Goal(750, 550),
+            [new Bonus(300,200,50,55)],
+            [new Malus(400,200,100,70)]),
+    
+        new Level( [
+            new Obstacle(200, 100, 300, 300), new Obstacle(600, 100, 100, 300),],
+            new Goal(750, 550),
+            [new Bonus(300,600,50,55)],
+            [new Malus(100,50,100,100)])
+            ]
 
     const levelInstance = level_data[0]; 
     levelInstance.loadLevel(currentLevelIndex);

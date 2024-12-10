@@ -6,23 +6,21 @@ const playerStartPositions = [
 ];
 
 class Level {
-    //constructor(obstacles, goal, bonus = [], malus = [],InverseControl = []) {
-    //    this.obstacles = obstacles;
-    //    this.goal = goal;
-    //    this.bonus = bonus;
-    //    this.malus = malus;
-    //}
+    constructor(obstacles, goal, bonus = [], malus = [],InverseControl = []) {
+        this.obstacles = obstacles;
+        this.goal = goal;
+        this.bonus = bonus;
+        this.malus = malus;
+    }
 
     //transforme le json en level
-    constructor(json) {
-        console.log("ici =>",json);
-        this.obstacles = json.obstacles.map(obstacle => new Obstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height));
-        this.goal = new Goal(json.goal.x, json.goal.y, json.goal.size);
-        this.bonus = json.bonus.map(bonus => new Bonus(bonus.x, bonus.y, bonus.width, bonus.height));
-        this.malus = json.malus.map(malus => new Malus(malus.x, malus.y, malus.width, malus.height));
-        console.log(this);
-        return new Level(obstacles, goal, bonus, malus);
-    }
+    //constructor(json) {
+    //    console.log("construct ",json);
+    //    this.obstacles = json.obstacles.map(obstacle => new Obstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height));
+    //    this.goal = new Goal(json.goal.x, json.goal.y, json.goal.size);
+    //    this.bonus = json.bonus.map(bonus => new Bonus(bonus.x, bonus.y, bonus.width, bonus.height));
+    //    this.malus = json.malus.map(malus => new Malus(malus.x, malus.y, malus.width, malus.height));
+    //}
     // Charge les éléments du niveau dans le jeu
     load() {
         return {
