@@ -10,14 +10,12 @@
 
 
 
-
-
 let level_data= [];
 let levelCompleted = false;
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = 800;
-canvas.height = 600;
+canvas.height = 800;
 let currentLevelIndex = 0;
 
 let players = [];
@@ -27,6 +25,9 @@ let malus = [];
 let InverseControl = [];
 let goal;
 let countdown = 5;
+
+background = new Image(32,32);
+background.src = './textures/tiles/background.png';
 
 function getLocalStorageData(key){
 
@@ -59,6 +60,19 @@ function setLocalStorageData(key, value){
     }
 }
 
+function getJson(url){
+    fetch(url)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  }).then((jsonData) => {
+    console.log('JSON Data:', jsonData);
+  }).catch((error) => {
+    console.error('Error fetching or parsing JSON:', error);
+  });
+}
 
 
 
@@ -71,47 +85,40 @@ const playerControls = [
     { up: "5", down: "2", left: "1", right: "3" },
     { up: "i", down: "k", left: "j", right: "l" },
 ];
-    
+
     let nbPlayers = getLocalStorageData("nbPlayers");
     
-
     // Ajouter les joueurs à la liste des joueurs
     for(let i = 0; i < nbPlayers; i++){
         players.push(new Player(1,1,playerColors[i], playerControls[i]))
     }
 
-    level_data = [new Level([
-         new Obstacle(750, 150, 50, 300), new Obstacle(400, 100, 50, 300),],
-         new Goal(750, 550),
-         [new Bonus(300,200,50,55)],
-          []),
-          
-          new Level( [
-             new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),],
-             new Goal(750, 550),
-            [new Bonus(300,200,50,55)],
-            [new Malus(400,200,100,70)]),
+    //const level1 = getJson('./levels_data/level1.json'); TO DO read JSON to LEVELS
+    //level_data = [new Level(level1)];
 
-            new Level( [
-                new Obstacle(200, 100, 300, 300), new Obstacle(600, 100, 100, 300),],
-                new Goal(750, 550),
-               [new Bonus(300,600,50,55)],
-               [new Malus(100,50,100,100)])
-            
-            
-
-
-
-            ]
-
-
+    //level_data = [new Level([
+    //    new Obstacle(750, 150, 50, 300), new Obstacle(400, 100, 50, 300),],
+    //    new Goal(750, 550),
+    //    [new Bonus(300,200,50,55)],
+    //    []),
+    //      
+    //    new Level( [
+    //        new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),],
+    //        new Goal(750, 550),
+    //        [new Bonus(300,200,50,55)],
+    //        [new Malus(400,200,100,70)]),
+    //
+    //    new Level( [
+    //        new Obstacle(200, 100, 300, 300), new Obstacle(600, 100, 100, 300),],
+    //        new Goal(750, 550),
+    //        [new Bonus(300,600,50,55)],
+    //        [new Malus(100,50,100,100)])
+    //        ]
 
     const levelInstance = level_data[0]; 
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown();
     console.log("init");
- 
-
 }
 
 
@@ -132,11 +139,13 @@ function startCountdown() {
 }
 
 
+
 function gameLoop() {
-    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-
+    //draw backgournd with patern defined above
+    const patern = ctx.createPattern(background, 'repeat');
+    ctx.fillStyle = patern;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     obstacles.forEach(obstacle => obstacle.draw(ctx));
     bonus.forEach(bonus => bonus.draw(ctx));
@@ -179,11 +188,9 @@ function gameLoop() {
                 } else {
                     document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
                     return;
-
-                }
-            }, 2000);
+                }}, 2000);
+            }
         }
-    }
         bonus.forEach(singleBonus => {
             if (
                 player.x < singleBonus.x + singleBonus.width &&
@@ -205,10 +212,15 @@ function gameLoop() {
                 player.y < SingleMalus.y + SingleMalus.height &&
                 player.y + player.size > SingleMalus.y
             ) {
-                player.speed = 1; // Ralentissement
-                setTimeout(() => {
-                    player.speed = 1.5; // Vitesse normale après 3 secondes
-                }, 1500);
+                player.speed = 0.7; // Ralentissement
+                const intervalID = setInterval(() => {
+                    if(player.speed >= 1.5){
+                        player.speed = 1.5;
+                        clearInterval(intervalID);
+                    }else{
+                        player.speed = player.speed+0.125;
+                    }
+                }, 900);
             }
         });
         InverseControl.forEach(SingleInverseControl => {
@@ -223,15 +235,8 @@ function gameLoop() {
                     player.speed = 1.7; // Vitesse normale après 3 secondes
                 }, 1500);
             }
-        }
-
-            );
-    
-        
-       
-        
+        }); 
     });
-   
 
     requestAnimationFrame(gameLoop);
 }

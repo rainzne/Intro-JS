@@ -1,4 +1,8 @@
 class Player {
+    sprite1 = new Image();
+    sprite2 = new Image();
+    
+
     constructor(x, y, color, controls) {
         this.x = x;
         this.y = y;
