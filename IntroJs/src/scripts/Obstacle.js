@@ -10,7 +10,6 @@ class Obstacle {
     }
 
     draw(ctx) {
-        ctx.fillStyle = this.color;
         const patern = ctx.createPattern(this.img, 'repeat');
         ctx.fillStyle = patern;
         ctx.fillRect(this.x, this.y, this.width, this.height);

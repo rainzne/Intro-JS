@@ -97,7 +97,7 @@ const playerControls = [
         [new Obstacle(0, 5, 15, 1), new Obstacle(10, 12, 15, 1),new Obstacle(10,13,1,5),new Obstacle(20,18,1,7)],
         new Goal(23, 22),
         [new Bonus(10,6,2,6)],
-        []),
+        [new Malus(5,12,5,6)]),
           
         new Level( [
             new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),],
@@ -198,7 +198,7 @@ function gameLoop() {
                 player.speed = 2; // Boost de vitesse
                 setTimeout(() => {
                     player.speed = 1.5; // Vitesse normale après 3 secondes
-                }, 3000);
+                }, 1500);
             }
         });
         
@@ -210,14 +210,9 @@ function gameLoop() {
                 player.y + player.size > SingleMalus.y
             ) {
                 player.speed = 0.7; // Ralentissement
-                const intervalID = setInterval(() => {
-                    if(player.speed >= 1.5){
-                        player.speed = 1.5;
-                        clearInterval(intervalID);
-                    }else{
-                        player.speed = player.speed+0.125;
-                    }
-                }, 900);
+                setTimeout(() => {
+                    player.speed = 1.5; // Vitesse normale après 3 secondes
+                }, 1500);
             }
         });
         InverseControl.forEach(SingleInverseControl => {
@@ -229,7 +224,7 @@ function gameLoop() {
             ) {
                 player.speed = 1.7; // Ralentissement
                 setTimeout(() => {
-                    player.speed = 1.7; // Vitesse normale après 3 secondes
+                    player.speed = 1.5; // Vitesse normale après 3 secondes
                 }, 1500);
             }
         }); 

@@ -5,10 +5,16 @@ class Malus {
         this.width = width*32;
         this.height = height*32;
         this.color = "purple";
+        this.img = new Image();
+        this.img.src = './textures/tiles/slow.png';
+        this.pattern = null;
     }
 
     draw(ctx) {
-        ctx.fillStyle = this.color;
+        if(this.pattern == null){
+            this.pattern = ctx.createPattern(this.img, 'repeat');
+        }
+        ctx.fillStyle = this.pattern;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
   
