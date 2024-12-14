@@ -1,0 +1,13 @@
+{
+    "obstacles": [
+        { "x": 50, "y": 50, "width": 10, "height": 10 },
+        { "x": 100, "y": 100, "width": 20, "height": 20 }
+    ],
+    "goal": { "x": 200, "y": 200, "size": 30 },
+    "bonus": [
+        { "x": 150, "y": 150, "width": 5, "height": 5 }
+    ],
+    "malus": [
+        { "x": 250, "y": 250, "width": 5, "height": 5 }
+    ]
+}

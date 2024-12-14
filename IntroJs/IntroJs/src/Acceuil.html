@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu 2D Multi-Joueurs</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <h1>Bienvenue ! </h1>
+    <fieldset>
+        <legend>Sélectionner le nombre de joueurs :</legend>
+      
+        <div>
+          <input class="radioButton" type="radio" id="onePlayer" name="nbPlayers" value="1"onclick="setLocalStorageData('nbPlayers', 1)"  />
+          <label for="onePlayer">1 joueur</label>
+        </div>
+      
+        <div>
+          <input class="radioButton" type="radio" id="twoPlayers" name="nbPlayers" value="2"onclick="setLocalStorageData('nbPlayers', 2)" />
+          <label for="twoPlayers">2 joueurs</label>
+        </div>
+      
+        <div>
+          <input class="radioButton" type="radio" id="threePlayers" name="nbPlayers" value="3"onclick="setLocalStorageData('nbPlayers', 3)" />
+          <label for="threePlayers">3 joueurs</label>
+        </div>
+
+        <div>
+            <input class="radioButton" type="radio" id="fourPlayers" name="nbPlayers" value="4" onclick="setLocalStorageData('nbPlayers', 4)" />
+            <label for="fourPlayers">4 joueurs</label>
+        </div>
+    </fieldset>
+
+        <a href="index.html">
+            <button>Play</button>
+          </a>
+        
+        
+    </div>
+        
+
+     
+    <script src="../src/scripts/auxiliaire.js"></script> 
+    <script src="../src/scripts/Player.js"></script>
+    <script src="../src/scripts/Obstacle.js"></script>
+    <script src="../src/scripts/Goal.js"></script>
+    <script src="../src/scripts/Main.js"></script>
+</body>
+</html>
