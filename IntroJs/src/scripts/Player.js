@@ -15,6 +15,30 @@ class Player {
         this.animation = 0;
         this.img = [];
         this.getImage();
+        this.bonus_icon = this.imageToTransparent('./textures/sprite/bonus.png');
+        this.malus_icon = this.imageToTransparent('./textures/sprite/malus.png');
+    }
+
+    imageToTransparent(imglink){
+        //make the white pixel transparent of the image and return the new image
+        let imgtemp = new Image();
+        imgtemp.src = imglink;
+        imgtemp.onload = () => {
+        let canvas = document.createElement('canvas');
+        let ctx = canvas.getContext('2d');
+        canvas.width = imgtemp.width;
+        canvas.height = imgtemp.height;
+        ctx.drawImage(imgtemp, 0, 0);
+        let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < imgData.data.length; i += 4) {
+            if (imgData.data[i] == 255 && imgData.data[i + 1] == 255 && imgData.data[i + 2] == 255) {
+                imgData.data[i + 3] = 0;
+            }
+        }
+        ctx.putImageData(imgData, 0, 0);
+        imgtemp.src = canvas.toDataURL();
+        }
+        return imgtemp;
     }
 
     getImage(){
@@ -36,6 +60,11 @@ class Player {
         this.animation= (this.animation + 1) % 40;
         //ctx.fillStyle = this.paterns[Math.floor(this.animation/10)];
         ctx.drawImage(this.img[Math.floor(this.animation/20)], this.x, this.y, this.size, this.size);
+        if(this.speed > 1.35){
+            ctx.drawImage(this.bonus_icon, this.x+15, this.y-2, 8, 8);
+        }else if (this.speed < 1.35){
+            ctx.drawImage(this.malus_icon, this.x+15, this.y-2, 8, 8);
+        }
     }
 
     move() {

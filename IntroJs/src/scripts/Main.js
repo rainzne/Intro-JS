@@ -27,7 +27,8 @@ let goal;
 let countdown = 0;
 let timer = 10;
 
-background = new Image(32,32);
+
+let background = new Image(32,32);
 background.src = './textures/tiles/background.png';
 
 function getLocalStorageData(key){
@@ -79,7 +80,7 @@ async function getLevelData(url){
 // Initialisation
 function init() {
     const playerColors = ["red", "blue", "green", "yellow"];
-const playerControls = [
+    const playerControls = [
     { up: "z", down: "s", left: "q", right: "d" },
     { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" },
     { up: "5", down: "2", left: "1", right: "3" },
@@ -111,7 +112,7 @@ const playerControls = [
             new Goal(750, 550),
             [new Bonus(300,600,50,55)],
             [new Malus(100,50,100,100)])
-            ]
+            ];
 
     const levelInstance = level_data[0]; 
     currentLevelIndex =1;

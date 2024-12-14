@@ -15,13 +15,13 @@ class Malus {
             this.pattern = ctx.createPattern(this.img, 'repeat');
         }
         ctx.fillStyle = this.pattern;
+        ctx.globalAlpha = 0.8;
         ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fillStyle = 'grey';
+        ctx.globalAlpha = 1;
         ctx.fillRect(this.x, this.y, this.width, 5);
         ctx.fillRect(this.x, this.y, 5, this.height);
         ctx.fillRect(this.x+this.height-5, this.y, 5, this.height);
         ctx.fillRect(this.x, this.y+this.height-5, this.width, 5);
-
     }
   
    
