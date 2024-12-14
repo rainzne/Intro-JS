@@ -98,13 +98,13 @@ const playerControls = [
         [new Obstacle(0, 5, 15, 1), new Obstacle(10, 12, 15, 1),new Obstacle(10,13,1,5),new Obstacle(20,18,1,7)],
         new Goal(23, 22),
         [new Bonus(10,6,2,6)],
-        [new Malus(5,12,5,6)]),
+        [new Malus(5,12,5,5)]),
           
         new Level( [
-            new Obstacle(10, 150, 50, 300), new Obstacle(500, 100, 50, 300),],
-            new Goal(750, 550),
-            [new Bonus(300,200,50,55)],
-            [new Malus(400,200,100,70)]),
+            new Obstacle(19,10,1,1),new Obstacle(17,11,3,1),new Obstacle(17,8,1,1),new Obstacle(16,8,1,4),new Obstacle(3, 0, 1, 10),new Obstacle(6,2,1,11),new Obstacle(0,13,7,1),new Obstacle(9,0,1,20)],
+            new Goal(18,10),
+            [new Bonus(0,14,5,5)],
+            [new Malus(20,20,2,2),new Malus(17,15,2,2),new Malus(15,22,2,2),new Malus(10,18,2,2)]),
     
         new Level( [
             new Obstacle(200, 100, 300, 300), new Obstacle(600, 100, 100, 300),],
@@ -114,6 +114,7 @@ const playerControls = [
             ]
 
     const levelInstance = level_data[0]; 
+    currentLevelIndex =1;
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown(() => {
         gameLoop();
@@ -265,10 +266,10 @@ function gameLoop() {
                 player.y < singleBonus.y + singleBonus.height &&
                 player.y + player.size > singleBonus.y
             ) {
-                player.speed = 2; // Boost de vitesse
+                player.speed = 1.5; // Boost de vitesse
                 setTimeout(() => {
                     if (timer >=0){
-                    player.speed = 1.5; // Vitesse normale après 3 secondes
+                    player.speed = 1.35; // Vitesse normale après 3 secondes
                 }
                 }, 1500);
             }
@@ -281,9 +282,9 @@ function gameLoop() {
                 player.y < SingleMalus.y + SingleMalus.height &&
                 player.y + player.size > SingleMalus.y
             ) {
-                player.speed = 0.7; // Ralentissement
+                player.speed = 1; // Ralentissement
                 setTimeout(() => {
-                    player.speed = 1.5; // Vitesse normale après 3 secondes
+                    player.speed = 1.35; // Vitesse normale après 3 secondes
                 }, 1500);
             }
         });
@@ -294,9 +295,9 @@ function gameLoop() {
                 player.y < SingleInverseControl.y + SingleInverseControl.height &&
                 player.y + player.size > SingleInverseControl.y
             ) {
-                player.speed = 1.7; // Ralentissement
+                player.speed = 1;
                 setTimeout(() => {
-                    player.speed = 1.5; // Vitesse normale après 3 secondes
+                    player.speed = 1.35; // Vitesse normale après 3 secondes
                 }, 1500);
             }
         }); 
