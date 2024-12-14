@@ -267,12 +267,12 @@ function gameLoop() {
                 player.y < singleBonus.y + singleBonus.height &&
                 player.y + player.size > singleBonus.y
             ) {
-                player.speed = 1.5; // Boost de vitesse
-                setTimeout(() => {
-                    if (timer >=0){
-                    player.speed = 1.35; // Vitesse normale après 3 secondes
+                if(speed = 1.35){
+                    player.speed = 1.5; // Bonus de vitesse
+                    setTimeout(() => {
+                        player.speed = 1.35; // Vitesse normale après 3 secondes
+                    }, 2000);
                 }
-                }, 1500);
             }
         });
         
@@ -283,10 +283,12 @@ function gameLoop() {
                 player.y < SingleMalus.y + SingleMalus.height &&
                 player.y + player.size > SingleMalus.y
             ) {
-                player.speed = 1; // Ralentissement
-                setTimeout(() => {
-                    player.speed = 1.35; // Vitesse normale après 3 secondes
-                }, 1500);
+                if(speed = 1.35){
+                    player.speed = 1; // Ralentissement
+                    setTimeout(() => {
+                        player.speed = 1.35; // Vitesse normale après 3 secondes
+                    }, 2000);
+                }
             }
         });
         InverseControl.forEach(SingleInverseControl => {
@@ -296,10 +298,12 @@ function gameLoop() {
                 player.y < SingleInverseControl.y + SingleInverseControl.height &&
                 player.y + player.size > SingleInverseControl.y
             ) {
-                player.speed = 1;
-                setTimeout(() => {
-                    player.speed = 1.35; // Vitesse normale après 3 secondes
-                }, 1500);
+                if(speed = 1.35){
+                    player.speed = 1; // Inversion de contrôle
+                    setTimeout(() => {
+                        player.speed = 1.35; // Vitesse normale après 3 secondes
+                    }, 1500);
+                }
             }
         }); 
     });
