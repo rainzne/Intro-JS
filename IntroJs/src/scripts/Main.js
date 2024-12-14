@@ -25,6 +25,7 @@ let malus = [];
 let InverseControl = [];
 let goal;
 let countdown = 0;
+let timer = 10;
 
 background = new Image(32,32);
 background.src = './textures/tiles/background.png';
@@ -114,25 +115,94 @@ const playerControls = [
 
     const levelInstance = level_data[0]; 
     levelInstance.loadLevel(currentLevelIndex);
-    startCountdown();
+    startCountdown(() => {
+        gameLoop();
+        TimerLevel(); 
+        
+    });
     console.log("init");
 }
 
 
 
+function TimerLevel() {
+    timer = 10; // Réinitialiser le temps
+    const TimerCountDown = setInterval(() => {
+        document.getElementById("timer").textContent = `Timer : ${timer}`;
+        console.log(timer);
+        timer--; 
+
+        if (timer < 0) {
+            clearInterval(TimerCountDown); 
+            Timeout(); 
+        }
+
+       
+    }, 1000);
+}
 
 // Compte à rebours
-function startCountdown() {
+function startCountdown(callback) {
+    countdown = 5; 
     const countdownInterval = setInterval(() => {
         document.getElementById("countdown").textContent = `Départ dans : ${countdown}`;
         countdown--;
 
         if (countdown < 0) {
             clearInterval(countdownInterval);
-            document.getElementById("countdown").textContent = "Go !";
-            gameLoop();
+            document.getElementById("countdown").textContent = "GO!";
+            if (callback) callback();
         }
     }, 1000);
+}
+
+
+function Timeout() {
+    // Geler les joueurs
+    players.forEach(player => {
+        player.speed = 0;
+        console.log("speed after geler :" +player.speed);
+        player.dx = 0;
+        player.dy = 0;
+    });
+
+   
+    document.getElementById("countdown").textContent = "Temps écoulé !";
+
+    
+    setTimeout(() => {
+        
+       
+        console.log("TimeoutAZAZAZZ");
+        setTimeout(() => {
+            startCountdown(() => {
+                NextLevel(); 
+                TimerLevel(); 
+                gameLoop(); 
+            });
+        }, 2000); 
+
+    }, 2000);
+}
+
+function NextLevel() {
+    currentLevelIndex++;
+
+    if (currentLevelIndex < level_data.length) {
+        const nextLevel = level_data[currentLevelIndex];
+        nextLevel.loadLevel(currentLevelIndex); // Charger le prochain niveau
+        levelCompleted = false; // Réinitialiser l'état du niveau
+
+        players.forEach(player => {
+            player.speed = 1.5; // Réinitialiser la vitesse
+            player.x = 1;
+            player.y = 1;
+            console.log("speed after next level :" + player.speed);
+        });
+    } else {
+        document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
+        window.location.href = "../src/EndGame.html";
+    }
 }
 
 
@@ -197,7 +267,9 @@ function gameLoop() {
             ) {
                 player.speed = 2; // Boost de vitesse
                 setTimeout(() => {
+                    if (timer >=0){
                     player.speed = 1.5; // Vitesse normale après 3 secondes
+                }
                 }, 1500);
             }
         });
