@@ -195,7 +195,7 @@ function gameLoop() {
                 player.y < singleBonus.y + singleBonus.height &&
                 player.y + player.size > singleBonus.y
             ) {
-                player.speed = 1.7; // Boost de vitesse
+                player.speed = 2; // Boost de vitesse
                 setTimeout(() => {
                     player.speed = 1.5; // Vitesse normale après 3 secondes
                 }, 3000);

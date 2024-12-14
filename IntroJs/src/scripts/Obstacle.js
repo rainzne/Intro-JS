@@ -5,10 +5,14 @@ class Obstacle {
         this.width = width*32;
         this.height = height*32;
         this.color = "#555";
+        this.img = new Image();
+        this.img.src = './textures/tiles/walls.png';
     }
 
     draw(ctx) {
         ctx.fillStyle = this.color;
+        const patern = ctx.createPattern(this.img, 'repeat');
+        ctx.fillStyle = patern;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
   

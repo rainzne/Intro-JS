@@ -12,11 +12,29 @@ class Player {
         this.controls = controls;
         this.dx = 0;
         this.dy = 0;
+        this.animation = 0;
+        this.img = [];
+        this.getImage();
+    }
+
+    getImage(){
+        if(this.color == "blue"){
+            for(let i = 1; i <=2 ; i++){
+                this.img[i-1] = new Image();
+                this.img[i-1].src = `./textures/sprite/player_blue/idle_${i}.png`;
+            }
+        }else if(this.color == "red"){
+            for(let i = 1; i <=2 ; i++){
+                this.img[i-1] = new Image();
+                this.img[i-1].src = `./textures/sprite/player_red/idle_${i}.png`;
+            }
+        }
     }
 
     draw(ctx) {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.size, this.size);
+        this.animation= (this.animation + 1) % 40;
+        //ctx.fillStyle = this.paterns[Math.floor(this.animation/10)];
+        ctx.drawImage(this.img[Math.floor(this.animation/20)], this.x, this.y, this.size, this.size);
     }
 
     move() {
