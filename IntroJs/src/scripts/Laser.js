@@ -119,13 +119,13 @@ class Laser{
                 this.laserCoord = [closest.x+closest.width,this.y+8,this.x-closest.x-closest.width,16];
                 ctx.fillRect(closest.x+closest.width,this.y+8,this.x-closest.x-closest.width,16);
             }else if(this.angle == "right"){
-                this.laserCoord = [this.x+8,this.y+8,closest.x-this.x-8,16];
+                this.laserCoord = [this.x+32,closest.y+8,closest.x-this.x-32,16];
                 ctx.fillRect(this.x+32,this.y+8,closest.x-this.x-32,16);
             }else if(this.angle == "up"){
-                this.laserCoord = [this.x+8,closest.y+closest.height,this.y-closest.y-closest.height,16];
+                this.laserCoord = [this.x+8,closest.y+closest.height,16,this.y-closest.y-closest.height];
                 ctx.fillRect(this.x+8,closest.y+closest.height,16,this.y-closest.y-closest.height);
             }else{
-                this.laserCoord = [this.x+8,this.y+8,16,closest.y-this.y-8];
+                this.laserCoord = [this.x+8,this.y+32,16,closest.y-this.y-32];
                 ctx.fillRect(this.x+8,this.y+32,16,closest.y-this.y-32);
             }
         }
@@ -137,8 +137,8 @@ class Laser{
         if(this.clock == 0){
             this.nextAngle();
         }
-        ctx.drawImage(this.img,this.x,this.y);
         this.drawLaser(ctx,obstacles);
+        ctx.drawImage(this.img,this.x,this.y);
     }
 
 }

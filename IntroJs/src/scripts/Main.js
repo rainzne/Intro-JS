@@ -186,10 +186,20 @@ function init() {
             [new DeathZone(10,5,8,5),new DeathZone(5,5,5,15)],
             [new Laser(18,20,"up",0,12)],
         ),
+
+        new Level(
+            [new Obstacle(2,0,23,1),new Obstacle(21,1,4,24)],
+            new Goal(0, 23),
+            [new Bonus(20,1,1,23)],
+            [],
+            [],
+            [new DeathZone(0,18,15,1),new DeathZone(5,12,15,1),new DeathZone(0,6,15,1)],
+            [new Laser(4,24,"down",0,22),new Laser(20,24,"up",0,22),new Laser(7,24,"left",0,50),new Laser(13,24,"down",0,70),new Laser(10,24,"up",0,100)],
+        )
         ];
 
     const levelInstance = level_data[0]; 
-    currentLevelIndex = 0;
+    currentLevelIndex = 9;
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown(() => {
         gameLoop();
@@ -403,6 +413,7 @@ function gameLoop() {
         });
         laser.forEach((singleLaser) => {
             if(
+                //singleLaser.laserCoord = [x,y,width,height]
                 player.x < singleLaser.laserCoord[0] + singleLaser.laserCoord[2] &&
                 player.x + player.size > singleLaser.laserCoord[0] &&
                 player.y < singleLaser.laserCoord[1] + singleLaser.laserCoord[3] &&
