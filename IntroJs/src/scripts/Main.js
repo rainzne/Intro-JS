@@ -218,7 +218,7 @@ function TimerLevel() {
         console.log(timer);
         timer--; 
 
-        if (timer < 3) {
+        if (timer < 0) {
             clearInterval(TimerCountDown); 
             Timeout(); 
         }
@@ -229,7 +229,7 @@ function TimerLevel() {
 
 // Compte à rebours
 function startCountdown(callback) {
-    countdown = 0; 
+    countdown = 3; 
     const countdownInterval = setInterval(() => {
         document.getElementById("countdown").textContent = `Départ dans : ${countdown}`;
         countdown--;
