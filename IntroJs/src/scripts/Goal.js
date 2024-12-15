@@ -20,7 +20,7 @@ class Goal {
 
 
     draw(ctx) {
-        this.animation = (this.animation+1)%10 ;
+        this.animation = (this.animation+1)%20 ;
         if(this.animation == 0){
             //choose random color
             for(let i = 0; i < (this.width/32)*(this.height/32); i++){

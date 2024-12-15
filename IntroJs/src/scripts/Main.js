@@ -158,12 +158,38 @@ function init() {
         ),
 
         new Level(
+            [new Obstacle(12,12,5,5),new Obstacle(5,5,5,5),new Obstacle(24,1,1,23),new Obstacle(0,5,1,19),new Obstacle(5,0,20,1),new Obstacle(0,24,25,1)],
+            new Goal(20, 20),
+            [new Bonus(10,10,2,2)],
+            [new Malus(12,18,2,6)],
+            [],
+            [new DeathZone(21,13,3,3),new DeathZone(12,17,6,1),new DeathZone(17,12,1,5)],
+            [new Laser(19,19,"up",0,20)],
+        ),
 
+        new Level(
+            [new Obstacle(3,18,1,1),new Obstacle(23,18,1,1),new Obstacle(19,1,1,1),new Obstacle(10,1,1,1),new Obstacle(13,24,1,1),new Obstacle(24,13,1,1),new Obstacle(13,0,1,1),new Obstacle(0,15,1,1),new Obstacle(10,20,1,1),new Obstacle(19,15,1,1),new Obstacle(13,13,1,1)],
+            new Goal(20, 20),
+            [],
+            [new Malus(5,7,3,3)],
+            [],
+            [new DeathZone(0,24,13,1),new DeathZone(24,0,1,13)],
+            [new Laser(10,18,"right",0,30),new Laser(19,13,"left",0,30),new Laser(19,13,"down",0,30),new Laser(13,15,"up",0,30)],
+        ),
+
+        new Level(
+            [new Obstacle(0,2,1,23),new Obstacle(24,0,1,24),new Obstacle(2,0,22,1),new Obstacle(1,24,24,1)],
+            new Goal(10, 10),
+            [new Bonus(2,2,2,2)],
+            [],
+            [],
+            [new DeathZone(10,5,8,5),new DeathZone(5,5,5,15)],
+            [new Laser(18,20,"up",0,12)],
         ),
         ];
 
     const levelInstance = level_data[0]; 
-    currentLevelIndex = 5;
+    currentLevelIndex = 8;
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown(() => {
         gameLoop();
@@ -250,7 +276,7 @@ function NextLevel() {
         });
     } else {
         document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
-        window.location.href = "IntroJs/src/EndGame.html";
+        window.location.href = "Endgame.html";
     }
 }
 

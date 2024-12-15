@@ -29,7 +29,7 @@ class DeathZone {
             this.getPattern(ctx);
             this.animationMem = new Array((this.width/32)*(this.height/32));
         }
-        this.animation = (this.animation+1)%13 ;
+        this.animation = (this.animation+1)%50 ;
         if(this.animation == 0){
             //choose random texture
             for(let i = 0; i < (this.width/32)*(this.height/32); i++){
