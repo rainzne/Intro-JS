@@ -152,7 +152,7 @@ function TimerLevel() {
         console.log(timer);
         timer--; 
 
-        if (timer < 0) {
+        if (timer < 3) {
             clearInterval(TimerCountDown); 
             Timeout(); 
         }
@@ -181,7 +181,6 @@ function Timeout() {
     // Geler les joueurs
     players.forEach(player => {
         player.speed = 0;
-        console.log("speed after geler :" ,player.speed);
         player.dx = 0;
         player.dy = 0;
     });
