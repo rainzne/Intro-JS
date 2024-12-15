@@ -1,115 +1,93 @@
-Conception : 
-Dans un premier temps on est partie sur une base similaire qui est donné dans le sujet gdoc.
-Ensuite on a fait des améliorations au fur et a mesure on a commencé par la gestion des obstacles, des sorties, des joueurs.
-De plus, nous sommes partie sur les fonctions de gestions de temps (timer) et de scoring c'est dernière étaient plus simple mais quand même difficile dans l'ensemble à implémenter car notre base établi nous a freinez dans leur conception les idées qu'on avait pour leur création ne correspondez pas. Donc a dû envisagez d'autre solution qui finalement on porté leur fruit. Par exemple nous avons utilsé le mot clé ".every" Pour notre fonction de scoring on a du la divisé en plusieurs partie pour nous permettre de répondre a la contrainte.
-La colision entre les joueurs a était plutot "simple" a faire vu qu'on s'est inspiré de fonction colision avec les obstacles.
-Pour finir on a développer d'autre malus comme des  lasers c'est derniers n'ont pas étaient difficile a implémenter de fait qu'on avais deja les bases pour ces derniers mais aussi par les nombreux exemples reçu par le biai de M.Buffa
+# Jeu Multijoueur 2D - README
 
+## 📖 Conception
 
------------------------------------
-Class Player : 
+Le projet a été initialement basé sur une structure proposée dans un sujet Google Docs. Nous avons progressivement amélioré et enrichi le jeu, notamment en développant :  
+- La gestion des obstacles, des sorties et des joueurs.  
+- Un système de **timer** pour limiter la durée des niveaux.  
+- Un **système de scoring** pour récompenser les joueurs.  
 
-draw() qui nous permet de dessiner les animations des sprites des joueurs.
+### Points techniques développés :
+- La gestion des **collisions entre joueurs** s'est inspirée des collisions avec les obstacles, ce qui a simplifié sa mise en œuvre.
+- Implémentation de nouveaux malus, comme des **lasers**, grâce à des bases solides déjà établies.
 
-move() permet au joueur de se déplacer dans l'aire de jeu
+## 📂 Classes et Méthodes
 
-handleinput() permet de savoir si une touche est appyuer
+### `Player`
+- **`draw()`** : Dessine les animations des sprites des joueurs.  
+- **`move()`** : Permet aux joueurs de se déplacer.  
+- **`handleInput()`** : Gère les entrées clavier.  
+- **`handleCollisionWithObstacle()`** : Gère les collisions avec les obstacles.  
+- **`CollisionJoueur()`** : Gère les collisions entre joueurs, les déplaçant en cas de contact.  
 
-handleCollisionWithObstacle() gère la collision des obstacles permet au joueurs de ne pas les franchirs
+### `Bonus`
+- **`getImage()`** : Récupère l’image du bonus.  
+- **`getPattern()`** : Récupère le motif pour les animations.  
+- **`draw()`** : Dessine les bonus.  
 
-CollisionJoueur() gère la collision avec les autres joueurs de pousser les joueurs de chaque côté si collision
--------------------
-Class Bonus : 
+### `DeathZone`
+- **`getImage()`** : Récupère l’image de la zone mortelle.  
+- **`getPattern()`** : Récupère son motif.  
+- **`draw()`** : Dessine la zone de mort.  
 
-getImage() permet d'avoir l'image de notre bonus
+### `Goal`
+- **`getRandomColor()`** : Génère une couleur aléatoire pour la sortie.  
+- **`draw()`** : Dessine la sortie.  
 
-getPattern() nous permets de recuperer le pattern de notre bonus pour faire de l'animation
+### `Level`
+- **`recupererLesPositionsDesJoueurs()`** : Récupère les positions initiales des joueurs.  
+- **`loadLevel()`** : Charge un niveau à partir de données prédéfinies.  
 
-draw() permet de dessiner notre bonus
--------------------
-Class DeathZone : 
-getImage() permet d'avoir l'image de notre Deathzone
+### `Malus`
+- **`draw()`** : Dessine les malus.  
 
-getPattern() nous permets de recuperer le pattern de notre DeathZone pour faire de l'animation
+### `Obstacle`
+- **`draw()`** : Dessine les obstacles.  
 
-draw() permet de dessiner notre Deathzone
--------------------
-Class Goal :
+### `Main`
+- **`setLocalStorageData()`** : Enregistre une valeur localement.  
+- **`getLevelData()`** : Charge les données d'un niveau depuis une URL.  
+- **`init()`** : Initialise le canvas à l’ouverture de la page.  
+- **`startCountdown()`** : Lance un compte à rebours avant le début du niveau.  
+- **`Timeout()`** : Fige les joueurs lorsque le timer atteint 0 et passe au niveau suivant.  
+- **`TimerLevel()`** : Gère le timer pour chaque niveau.  
+- **`NextLevel()`** : Charge le niveau suivant.  
+- **`gameLoop()`** : Boucle principale du jeu.  
+- **`resultats()`** : Récupère les scores des joueurs.  
+- **`afficherScores()`** : Affiche les scores pendant le jeu.  
+- **`afficherScoresEnd()`** : Affiche les scores finaux.  
+- **`StoreScoreEnd()`** : Stocke les scores localement.  
 
-getRandomColor() permet de randomiser notre sortie
+## ⚠️ Difficultés rencontrées
+- **Collisions avec obstacles** : Initialement, la gestion des collisions ne fonctionnait pas comme prévu et a nécessité plusieurs révisions.  
+- **Utilisation de GitHub Pages** : La compréhension de cet outil a demandé du temps, mais nous avons fini par réussir à déployer le projet.  
 
-draw() permet de dessiner notre goal
--------------------
-Class Level : 
+## 🔧 Points à améliorer
+- **Déplacements des joueurs après collisions** : Lorsqu’un joueur touche un obstacle, certains comportements restent imprécis.  
 
-recuper les positions de nos joueurs
+## 🎮 Comment jouer ?
 
-loadLevel() permet de charcher nos levels
--------------------
-Class Malus : 
-draw() permet de dessiner notre malus
--------------------
-Class Obstacle :
-draw() 
-permet de dessiner les obstacles
--------------------
-Class Canvas :
-Crée notre canvas
--------------------
-Main : 
-setLocalStorageData() enregistre une valeur dans le localStorage en utilisant une paire clé-valeur.
+1. Choisissez le **nombre de joueurs** sur l'écran d'accueil :  
+   - **Red** : Z (haut), S (bas), Q (gauche), D (droite).  
+   - **Blue** : Flèches directionnelles.  
+   - **Green** : Pavé numérique : 5 (haut), 2 (bas), 1 (gauche), 3 (droite).  
+   - **Yellow** : I (haut), K (bas), J (gauche), L (droite).  
 
-getLevelData()  récupère des données de niveau depuis une URL donnée.
+2. Une fois le jeu lancé :  
+   - Un **compte à rebours de 3 secondes** précède chaque niveau.  
+   - Les joueurs ont **50 secondes** pour atteindre la sortie (un carré 2x2 brillant).  
 
-init() :initialise le canvas au chargement de la page.
+### Scoring
+- **Premier** : +3 points  
+- **Deuxième** : +2 points  
+- **Troisième** : +2 points  
+- **Dernier** : +0 point  
 
-startCountdown(): lance un décompte avant le début de chaque niveau, les joueurs ne peuvent pas bouger jusqu'a la fin de ce dernier.
+3. Attention aux **malus** et **bonus** :  
+   - Ces objets peuvent influencer le score ou les déplacements.  
+   - Les ennemis apparaissent dans les niveaux plus avancés.
 
-Timeout() : Quand notre timer atteind 0 on gele les joueurs et on lance un conteur on passe au niveau suivant et on relance le timer
+4. À la fin des niveaux, un écran récapitulatif affiche les scores finaux.
 
-TimerLevel() : Permet d'avoir un timer pour nos niveaux 
-
-NextLevel(): charge le niveau suivant
-
-gameLoop(): boucle de jeu
-
-resultats() permet de recuperer le score des joueurs
-
-afficherScores() afficher le score des joueurs
-
-afficherScoresEnd() afficher le score final
-
-StoreScoreEnd() store localement le score
--------------------------
-difficulté : 
-
-Un point difficile a était la gestion des collisions avec les obstacles.
-Dans un premier temps on a fait une fonction simple mais qui ne fonctionné par comme on l'entendait, voire pas du tout dans certain cas. Du coup on a du la modifié plusieurs fois, car on avais pris en compte les collisions horizontale et verticale, mais pas celle des coins ou c'est les deux à la fois et c'est cette dernière qu'on a eu du mal a implémenter.. On s'est inspiré de plusieurs codes pour résoudre ce problème et notre code maintenant fonctionne.
-Comprendre comment fonctionne Github Pages on a mis quelque temps a commprendre les erreurs qu'on a reçu mais au final vers la fin on a réussi.
-----------------------------------
-Point a améliorer : 
-les déplacements quand on touche un obstacle reste le même c'est a dire quand on a touché un obstacle et qu'on le dépasse si on appuye par exemple sur une touche pour se déplacer vers le bas cela ne fonctionne pas il faut arreter d'appuyer sur la touche sur laquel on appuye pour pouvoir avoir de nouveau tout les déplacements possible.
-------------------------------------
-Comment jouer : 
-vous arrivez sur un écran d'accueil simple ou vous pouvez choisir combien de joueur jouent : 
-
-red : UP : Z ; down : S  ; left : Q ; right : D
-
-blue : UP : ArrowUp ; down : ArrowDown  ; left : ArrowLeft ; right : ArrowRight
-
-green : UP : 5 ; down : 2  ; left : 1 ; right : 3 ( pad num)
-
-yellow : UP : I ; down : K  ; left : J ; right : L
-
-ensuite un timer de 3 seconde apparait et vous avez 50 secondes pour rejoindre l'arrivé (carré de 2x2 qui brille) passer ce délai les joueurs seront geler sur place et ne gagnerons pas de points.
-Le premier joueur a atteindre la sortie gagne 3pts le deuxieme 2 le troiseme 2 et le dernier 0
-
-Vous avez évidemment des malus et bonus qui seront mis de temps en temps sur certains levels alors faites bien attention.. Mais il y aurai aussi des ennemis dans les niveau les plus hauts alors ne soyez pas déconcentrer.
-
-Une fois tout les niveaux finit un écran récap sera donnéer pour voire votre score.
-
-
-
-
-
-
+---
+Bon jeu ! 🚀
