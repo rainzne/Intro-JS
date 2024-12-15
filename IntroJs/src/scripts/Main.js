@@ -11,7 +11,7 @@
 
 
 let level_data= [];
-let levelCompleted = false;
+
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = 800;
@@ -24,8 +24,9 @@ let bonus = [];
 let malus = [];
 let InverseControl = [];
 let goal;
-let countdown = 0;
-let timer = 10;
+let countdown;
+let timer; // changer la durée du timer dans la function timerLevel
+let TimerCountDown;
 
 
 let background = new Image(32,32);
@@ -92,6 +93,7 @@ function init() {
     // Ajouter les joueurs à la liste des joueurs
     for(let i = 0; i < nbPlayers; i++){
         players.push(new Player(1,1,playerColors[i], playerControls[i]));
+        players[i].score = 0;
     }
 
     // Récupérer les données des niveaux
@@ -128,8 +130,8 @@ function init() {
 
 
 function TimerLevel() {
-    timer = 10; // Réinitialiser le temps
-    const TimerCountDown = setInterval(() => {
+    timer = 50; // Réinitialiser le temps
+    TimerCountDown = setInterval(() => {
         document.getElementById("timer").textContent = `Timer : ${timer}`;
         console.log(timer);
         timer--; 
@@ -193,7 +195,7 @@ function NextLevel() {
     if (currentLevelIndex < level_data.length) {
         const nextLevel = level_data[currentLevelIndex];
         nextLevel.loadLevel(currentLevelIndex); // Charger le prochain niveau
-        levelCompleted = false; // Réinitialiser l'état du niveau
+        
 
         players.forEach(player => {
             player.speed = 1.5; // Réinitialiser la vitesse
@@ -241,23 +243,22 @@ function gameLoop() {
             player.y < goal.y + goal.size &&
             player.y + player.size > goal.y - goal.size
         ) {
-            if (!levelCompleted){
-                levelCompleted = true;
-            document.getElementById("countdown").textContent = `${player.color} a gagné le niveau ${currentLevelIndex + 1} !`;
-            document.getElementById("scores").textContent = `${player.color} a gagné ${4} points!`;
+            if (!player.PlayerLevelCompleted){
+                player.PlayerLevelCompleted = true;
+                player.speed = 0; // Bloquer le joueur
+                player.score += 4 - players.filter(p => p.PlayerLevelCompleted).length;
+            
+            document.getElementById("scores").textContent = `${player.color} a gagné ${player.score} points!`;
+            afficherScores();
 
-            setTimeout(() => {
-                currentLevelIndex++;
-
-                if (currentLevelIndex < level_data.length) {
-                    levelCompleted = false;
-                    const nextLevel = level_data[currentLevelIndex];
-                    
-                    nextLevel.loadLevel(currentLevelIndex);
-                } else {
-                    document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
-                    return;
-                }}, 2000);
+            if (players.every(p => p.PlayerLevelCompleted)) {
+                clearInterval(TimerCountDown); // Désactiver le timer
+                setTimeout(() => {
+                    NextLevel();
+                    TimerLevel();
+                    gameLoop();
+                }, 2000);
+            }
             }
         }
         bonus.forEach(singleBonus => {
@@ -267,13 +268,18 @@ function gameLoop() {
                 player.y < singleBonus.y + singleBonus.height &&
                 player.y + player.size > singleBonus.y
             ) {
-                if(speed = 1.35){
+                
+                
+                 if(player.speed === 1.35){
                     player.speed = 1.5; // Bonus de vitesse
                     setTimeout(() => {
+                        if (timer >= 0){                       
+               
                         player.speed = 1.35; // Vitesse normale après 3 secondes
-                    }, 2000);
+                 }}, 2000);
                 }
-            }
+                }
+            
         });
         
         malus.forEach(SingleMalus => {
@@ -283,11 +289,12 @@ function gameLoop() {
                 player.y < SingleMalus.y + SingleMalus.height &&
                 player.y + player.size > SingleMalus.y
             ) {
-                if(speed = 1.35){
+                if(speed === 1.35){
                     player.speed = 1; // Ralentissement
                     setTimeout(() => {
+                        if (timer >= 0){
                         player.speed = 1.35; // Vitesse normale après 3 secondes
-                    }, 2000);
+                }}, 2000);
                 }
             }
         });
@@ -309,6 +316,26 @@ function gameLoop() {
     });
 
     requestAnimationFrame(gameLoop);
+}
+
+function resultats() {
+    let resultats = [];
+    players.forEach(player => {
+        resultats.push({
+            couleur: player.color,
+            score: player.score
+        });
+    });
+    return resultats;
+}
+
+
+function afficherScores() {
+    let scores = "";
+    players.forEach(player => {
+        scores += `${player.color}: ${player.score} points `;
+    });
+    document.getElementById("scores").innerHTML = scores;
 }
 
 // Gestion des entrées clavier
