@@ -262,7 +262,6 @@ function Timeout() {
             startCountdown(() => {
                 NextLevel(); 
                 TimerLevel(); 
-                gameLoop(); 
             });
         }, 2000); 
 
