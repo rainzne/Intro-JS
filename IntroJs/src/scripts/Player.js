@@ -20,6 +20,49 @@ class Player {
         this.PlayerLevelCompleted = false;
     }
 
+    collisionJoueur(player) {
+        if (!collisionEnabled) return;
+       players.forEach(otherPlayer => {
+           if (otherPlayer !== player) {
+               // Vérifier la collision
+               if (
+                   player.x < otherPlayer.x + otherPlayer.size &&
+                   player.x + player.size > otherPlayer.x &&
+                   player.y < otherPlayer.y + otherPlayer.size &&
+                   player.y + player.size > otherPlayer.y
+               ) {
+                   // Calculer la direction de poussée
+                   const dx = (player.x + player.size / 2) - (otherPlayer.x + otherPlayer.size / 2);
+                   const dy = (player.y + player.size / 2) - (otherPlayer.y + otherPlayer.size / 2);
+
+                   if (Math.abs(dx) > Math.abs(dy)) {
+                       // Collision horizontale
+                       if (dx > 0) {
+                           // Pousser otherPlayer vers la gauche
+                           player.x += 5;
+                       } else {
+                           // Pousser otherPlayer vers la droite
+                           player.x -= 5;
+                       }
+                   } else {
+                       // Collision verticale
+                       if (dy > 0) {
+                           // Pousser otherPlayer vers le haut
+                           player.y += 5;
+                       } else {
+                           // Pousser otherPlayer vers le bas
+                           player.y -= 5;
+                       }
+                   }
+
+                   // Empêcher le joueur poussé de sortir de la zone
+                   otherPlayer.x = Math.max(0, Math.min(canvas.width - otherPlayer.size, otherPlayer.x));
+                   otherPlayer.y = Math.max(0, Math.min(canvas.height - otherPlayer.size, otherPlayer.y));
+               }
+           }
+       });
+    }
+    
     imageToTransparent(imglink){
         //make the white pixel transparent of the image and return the new image
         let imgtemp = new Image();

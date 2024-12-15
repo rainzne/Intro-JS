@@ -29,6 +29,7 @@ let goal;
 let countdown;
 let timer; // changer la durée du timer dans la function timerLevel
 let TimerCountDown;
+let collisionEnabled = false;
 
 
 let background = new Image(32,32);
@@ -260,7 +261,7 @@ function Timeout() {
         console.log("TimeoutAZAZAZZ");
         setTimeout(() => {
             startCountdown(() => {
-                NextLevel(); 
+                NextLevel();
                 TimerLevel(); 
             });
         }, 2000); 
@@ -291,7 +292,10 @@ function NextLevel() {
         afficherScoresEnd();
     }
 }
-
+collisionEnabled = false;
+setTimeout(() => {
+    collisionEnabled = true;
+}, 2000);
 
 
 function gameLoop() {
@@ -307,13 +311,13 @@ function gameLoop() {
     // InverseControl.forEach(InverseControl => InverseControl.draw(ctx));     //---------------
     deathZone.forEach(deathZone => deathZone.draw(ctx));
     laser.forEach(lasers => lasers.draw(ctx,obstacles,laser));
-    
     goal.draw(ctx);
 
     // Gestion des joueurs
     players.forEach(player => {
         obstacles.forEach(obstacle => player.handleCollisionWithObstacle(obstacle));
        
+        player.collisionJoueur(player);
         player.draw(ctx);
         player.move();
     });
