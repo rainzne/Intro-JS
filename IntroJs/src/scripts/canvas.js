@@ -8,10 +8,4 @@ class Canva {
         this.canvas = null;
         this.ctx = null;
     }
-        
-
-
-
-
-
 }

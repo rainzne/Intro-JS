@@ -6,13 +6,14 @@ const playerStartPositions = [
 ];
 
 class Level {
-    constructor(obstacles, goal, bonus = [], malus = [],InverseControl = [],deathZone = []) {
+    constructor(obstacles, goal, bonus = [], malus = [],InverseControl = [],deathZone = [],laser = []) {
         this.obstacles = obstacles;
         this.goal = goal;
         this.bonus = bonus;
         this.malus = malus;
         this.InverseControl = InverseControl;
         this.deathZone = deathZone;
+        this.laser = laser;
     }
 
     //transforme le json en level
@@ -44,6 +45,7 @@ class Level {
         bonus=  level.bonus;
         malus=  level.malus;
         deathZone= level.deathZone;
+        laser= level.laser;
         players.forEach((player, index) => {
             player.x = playerStartPositions[index].x;
             player.y = playerStartPositions[index].y;

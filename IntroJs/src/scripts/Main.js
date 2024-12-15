@@ -24,6 +24,7 @@ let bonus = [];
 let malus = [];
 let InverseControl = [];
 let deathZone = [];
+let laser = [];
 let goal;
 let countdown;
 let timer; // changer la durée du timer dans la function timerLevel
@@ -105,6 +106,7 @@ function init() {
             [new Bonus(10,6,2,6)],
             [new Malus(5,12,5,5)],
             [],
+            [],
             [],),
 
         new Level(
@@ -121,16 +123,29 @@ function init() {
             [new Bonus(5,11,1,8)],
             [],
             [],
-            [new DeathZone(3,9,2,2),new DeathZone(0,4,2,2),new DeathZone(9,20,1,5),new DeathZone(0,19,18,1),new DeathZone(21,11,1,14),new DeathZone(5,10,17,1),new DeathZone(5,0,1,10)]
+            [new DeathZone(3,9,2,2),new DeathZone(0,4,2,2),new DeathZone(9,20,1,5),new DeathZone(0,19,18,1),new DeathZone(21,11,1,14),new DeathZone(5,10,17,1),new DeathZone(5,0,1,10)],
+            [],
         ),
         
         new Level(
             [],
-            new Goal(22, 22),
+            new Goal(11, 11),
             [],
             [],
             [],
-            []),
+            [new DeathZone(2,2,1,20),new DeathZone(21,2,1,20),new DeathZone(5,18,14,1),new DeathZone(5,5,14,1),new DeathZone(15,8,1,8),new DeathZone(8,8,1,8),new DeathZone(10,13,4,1),new DeathZone(10,10,4,1)],
+            [],
+        ),
+        
+        new Level(
+            [new Obstacle(24,1,1,23),new Obstacle(0,5,1,19),new Obstacle(5,0,20,1),new Obstacle(0,24,25,1)],
+            new Goal(20, 11),
+            [],
+            [],
+            [],
+            [],
+            [new Laser(10,15,"down",0,80),new Laser(15,10,"up",0,80),new Laser(15,15,"right",0,80),new Laser(10,10,"left",0,80)],
+        ),
         ];
 
     const levelInstance = level_data[0]; 
@@ -239,7 +254,7 @@ function gameLoop() {
     malus.forEach(malus => malus.draw(ctx));
     // InverseControl.forEach(InverseControl => InverseControl.draw(ctx));     //---------------
     deathZone.forEach(deathZone => deathZone.draw(ctx));
-
+    laser.forEach(lasers => lasers.draw(ctx,obstacles,laser));
     
     goal.draw(ctx);
 
@@ -340,6 +355,17 @@ function gameLoop() {
                 player.x = 1;
                 player.y = 1;
                 // To do animation
+            }
+        });
+        laser.forEach((singleLaser) => {
+            if(
+                player.x < singleLaser.laserCoord[0] + singleLaser.laserCoord[2] &&
+                player.x + player.size > singleLaser.laserCoord[0] &&
+                player.y < singleLaser.laserCoord[1] + singleLaser.laserCoord[3] &&
+                player.y + player.size > singleLaser.laserCoord[1]
+            ){
+                player.x = 1;
+                player.y = 1;
             }
         });
     });
