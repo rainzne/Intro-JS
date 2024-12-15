@@ -146,24 +146,10 @@ function init() {
             [],
             [new Laser(10,15,"down",0,80),new Laser(15,10,"up",0,80),new Laser(15,15,"right",0,80),new Laser(10,10,"left",0,80)],
         ),
-
-        new Level(
-            [new Obstacle(5,5,5,5),new Obstacle(24,1,1,23),new Obstacle(0,5,1,19),new Obstacle(5,0,20,1),new Obstacle(0,24,25,1)],
-            new Goal(20, 20),
-            [],
-            [],
-            [],
-            [],
-            [new Laser(14,17,"up",0,150),new Laser(13,16,"up",0,100),new Laser(12,15,"up",0,50)], 
-        ),
-
-        new Level(
-
-        ),
         ];
 
     const levelInstance = level_data[0]; 
-    currentLevelIndex = 5;
+    currentLevelIndex = 4;
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown(() => {
         gameLoop();
@@ -249,8 +235,11 @@ function NextLevel() {
             //console.log("speed after next level :" + player.speed);
         });
     } else {
+        
         document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
-        window.location.href = "IntroJs/src/EndGame.html";
+        
+        window.location.href = "EndGame.html";
+        afficherScoresEnd();
     }
 }
 
@@ -296,6 +285,7 @@ function gameLoop() {
             
             document.getElementById("scores").textContent = `${player.color} a gagné ${player.score} points!`;
             afficherScores();
+            
 
             if (players.every(p => p.PlayerLevelCompleted)) {
                 clearInterval(TimerCountDown); // Désactiver le timer
@@ -403,9 +393,29 @@ function afficherScores() {
     let scores = "";
     players.forEach(player => {
         scores += `${player.color}: ${player.score} points `;
+        StoreScoreEnd();
     });
     document.getElementById("scores").innerHTML = scores;
 }
+function afficherScoresEnd() {
+    let scores = "";
+    const playerColors = ["red", "blue", "green", "yellow"];
+    playerColors.forEach(color => {
+        let score = getLocalStorageData(`score${color}`);
+        scores += `${color}: ${score} points<br>`;
+    });
+    document.getElementById("scoress").innerHTML = scores;
+}
+
+function StoreScoreEnd() {
+        for (let i = 0; i < players.length; i++) {
+            setLocalStorageData(`score${players[i].color}`, players[i].score);
+        }
+}
+
+
+  
+
 
 // Gestion des entrées clavier
 window.addEventListener("keydown", e => {
