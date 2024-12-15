@@ -190,6 +190,7 @@ function init() {
 
     const levelInstance = level_data[0]; 
     currentLevelIndex = 8;
+    currentLevelIndex = 4;
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown(() => {
         gameLoop();
@@ -275,8 +276,11 @@ function NextLevel() {
             //console.log("speed after next level :" + player.speed);
         });
     } else {
+        
         document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
-        window.location.href = "Endgame.html";
+        
+        window.location.href = "EndGame.html";
+        afficherScoresEnd();
     }
 }
 
@@ -322,6 +326,7 @@ function gameLoop() {
             
             document.getElementById("scores").textContent = `${player.color} a gagné ${player.score} points!`;
             afficherScores();
+            
 
             if (players.every(p => p.PlayerLevelCompleted)) {
                 clearInterval(TimerCountDown); // Désactiver le timer
@@ -429,9 +434,29 @@ function afficherScores() {
     let scores = "";
     players.forEach(player => {
         scores += `${player.color}: ${player.score} points `;
+        StoreScoreEnd();
     });
     document.getElementById("scores").innerHTML = scores;
 }
+function afficherScoresEnd() {
+    let scores = "";
+    const playerColors = ["red", "blue", "green", "yellow"];
+    playerColors.forEach(color => {
+        let score = getLocalStorageData(`score${color}`);
+        scores += `${color}: ${score} points<br>`;
+    });
+    document.getElementById("scoress").innerHTML = scores;
+}
+
+function StoreScoreEnd() {
+        for (let i = 0; i < players.length; i++) {
+            setLocalStorageData(`score${players[i].color}`, players[i].score);
+        }
+}
+
+
+  
+
 
 // Gestion des entrées clavier
 window.addEventListener("keydown", e => {
