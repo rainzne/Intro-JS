@@ -70,11 +70,9 @@ Crée notre canvas
 -------------------
 
 Main : 
+setLocalStorageData() enregistre une valeur dans le localStorage en utilisant une paire clé-valeur.
 
-
-setLocalStorageData()
-
-getLevelData()
+getLevelData()  récupère des données de niveau depuis une URL donnée.
 
 init() :initialise le canvas au chargement de la page.
 
@@ -92,12 +90,14 @@ resultats() permet de recuperer le score des joueurs
 
 afficherScores() afficher le score des joueurs
 
+afficherScoresEnd() afficher le score final
 
-afficherScoresEnd()
+StoreScoreEnd() store localement le score
 
 
 
 difficulté : 
+
 Un point difficile a était la gestion des collisions avec les obstacles. Dans un premier temps on a fait une fonction simple mais qui ne fonctionné par comme on l'entendait, voire pas du tout dans certain cas. Du coup on a du la modifié plusieurs fois, car on avais pris en compte les collisions horizontale et verticale, mais pas celle des coins ou c'est les deux à la fois et c'est cette dernière qu'on a eu du mal a implémenter.. On s'est inspiré de plusieurs codes pour résoudre ce problème et notre code maintenant fonctionne.
 Point a améliorer les déplacements quand on touche un obstacle reste le même c'est a dire quand on a touché un obstacle et qu'on le dépasse si on appuye par exemple sur une touche pour se déplacer vers le bas cela ne fonctionne pas il faut arreter d'appuyer sur la touche sur laquel on appuye pour pouvoir avoir de nouveau tout les déplacements possible.
 Ensuite nous sommes partie sur les fonctions de gestions de temps (timer) et de scoring c'est dernière étaient plus simple mais quand même difficile dans l'ensemble à implémenter car notre base établi nous a freinez dans leur conception les idées qu'on avait pour leur création ne correspondez pas. Donc a dû envisagez d'autre solution qui finalement on porté leur fruit. Par exemple nous avons utilsé le mot clé ".every" pour notre fonction de scoring
@@ -105,7 +105,7 @@ Pour notre fonction de scoring on a du la divisé en plusieurs partie pour nous 
 La colision entre les joueurs a était plutot "simple" a faire vu qu'on s'est inspiré de fonction colision avec les obstacles.
 Un Autre point difficile : Comprendre comment fonctionne Github Pages on a mis quelque temps a commprendre les erreurs qu'on a reçu mais au final vers la fin on a réussi.
 
-Pour finir on a développer d'autre bonus et malus, des obstacles animés ( laser) c'est derniers n'ont pas étaient difficile a implémenter de fait qu'on avais deja les bases pour ces derniers mais aussi par les nombreux exemples reçu par le biai de M.Buffa
+Pour finir on a développer d'autre malus comme des  lasers c'est derniers n'ont pas étaient difficile a implémenter de fait qu'on avais deja les bases pour ces derniers mais aussi par les nombreux exemples reçu par le biai de M.Buffa
 
 Comment jouer : 
 
