@@ -17,6 +17,7 @@ class Player {
         this.getImage();
         this.bonus_icon = this.imageToTransparent('./textures/sprite/bonus.png');
         this.malus_icon = this.imageToTransparent('./textures/sprite/malus.png');
+        this.PlayerLevelCompleted = false;
     }
 
     imageToTransparent(imglink){
