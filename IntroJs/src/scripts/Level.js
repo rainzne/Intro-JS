@@ -6,11 +6,13 @@ const playerStartPositions = [
 ];
 
 class Level {
-    constructor(obstacles, goal, bonus = [], malus = [],InverseControl = []) {
+    constructor(obstacles, goal, bonus = [], malus = [],InverseControl = [],deathZone = []) {
         this.obstacles = obstacles;
         this.goal = goal;
         this.bonus = bonus;
         this.malus = malus;
+        this.InverseControl = InverseControl;
+        this.deathZone = deathZone;
     }
 
     //transforme le json en level
@@ -30,6 +32,7 @@ class Level {
             malus: this.malus,
         };
     }
+    
     loadLevel(levelIndex) {
         if (levelIndex >= level_data.length) {
             document.getElementById("countdown").textContent = "Vous avez terminé tous les niveaux !";
@@ -40,6 +43,7 @@ class Level {
         goal= level.goal;
         bonus=  level.bonus;
         malus=  level.malus;
+        deathZone= level.deathZone;
         players.forEach((player, index) => {
             player.x = playerStartPositions[index].x;
             player.y = playerStartPositions[index].y;

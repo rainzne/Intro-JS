@@ -57,7 +57,7 @@ class Player {
     }
 
     draw(ctx) {
-        //console.log(this.speed);
+        console.log(this.speed);
         this.animation= (this.animation + 1) % 40;
         //ctx.fillStyle = this.paterns[Math.floor(this.animation/10)];
         ctx.drawImage(this.img[Math.floor(this.animation/20)], this.x, this.y, this.size, this.size);

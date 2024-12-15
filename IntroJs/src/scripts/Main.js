@@ -23,6 +23,7 @@ let obstacles = [];
 let bonus = [];
 let malus = [];
 let InverseControl = [];
+let deathZone = [];
 let goal;
 let countdown;
 let timer; // changer la durée du timer dans la function timerLevel
@@ -97,32 +98,47 @@ function init() {
     }
 
     // Récupérer les données des niveaux
-    level_data = [new Level(
-        [new Obstacle(0, 5, 15, 1), new Obstacle(10, 12, 15, 1),new Obstacle(10,13,1,5),new Obstacle(20,18,1,7)],
-        new Goal(23, 22),
-        [new Bonus(10,6,2,6)],
-        [new Malus(5,12,5,5)]),
-          
-        new Level( [
-            new Obstacle(19,10,1,1),new Obstacle(17,11,3,1),new Obstacle(17,8,1,1),new Obstacle(16,8,1,4),new Obstacle(3, 0, 1, 10),new Obstacle(6,2,1,11),new Obstacle(0,13,7,1),new Obstacle(9,0,1,20)],
-            new Goal(18,10),
+    level_data = [
+        new Level(
+            [new Obstacle(0, 5, 15, 1), new Obstacle(10, 12, 15, 1),new Obstacle(10,13,1,5),new Obstacle(20,18,1,7)],
+            new Goal(22, 21),
+            [new Bonus(10,6,2,6)],
+            [new Malus(5,12,5,5)],
+            [],
+            [],),
+
+        new Level(
+            [new Obstacle(22,5,3,20),new Obstacle(10,0,15,5),new Obstacle(19,10,1,1),new Obstacle(17,11,3,1),new Obstacle(17,8,1,1),new Obstacle(16,8,1,4),new Obstacle(3, 0, 1, 10),new Obstacle(6,2,1,11),new Obstacle(0,13,7,1),new Obstacle(9,0,1,20)],
+            new Goal(17,9),
             [new Bonus(0,14,5,5)],
-            [new Malus(20,20,2,2),new Malus(17,15,2,2),new Malus(15,22,2,2),new Malus(10,18,2,2)]),
+            [new Malus(11,8,4,4),new Malus(20,10,2,2),new Malus(20,20,2,2),new Malus(17,15,2,2),new Malus(15,22,2,2),new Malus(10,18,2,2)],
+            [],
+            []),
     
-        new Level( [
-            new Obstacle(200, 100, 300, 300), new Obstacle(600, 100, 100, 300),],
-            new Goal(750, 550),
-            [new Bonus(300,600,50,55)],
-            [new Malus(100,50,100,100)])
-            ];
+        new Level(
+            [new Obstacle(15,13,3,4),new Obstacle(22,10,3,15),new Obstacle(0,20,9,5),new Obstacle(6,0,19,10)],
+            new Goal(11.5, 21.5),
+            [new Bonus(5,11,1,8)],
+            [],
+            [],
+            [new DeathZone(3,9,2,2),new DeathZone(0,4,2,2),new DeathZone(9,20,1,5),new DeathZone(0,19,18,1),new DeathZone(21,11,1,14),new DeathZone(5,10,17,1),new DeathZone(5,0,1,10)]
+        ),
+        
+        new Level(
+            [],
+            new Goal(22, 22),
+            [],
+            [],
+            [],
+            []),
+        ];
 
     const levelInstance = level_data[0]; 
-    currentLevelIndex =1;
+    currentLevelIndex = 0;
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown(() => {
         gameLoop();
         TimerLevel(); 
-        
     });
     console.log("init");
 }
@@ -147,7 +163,7 @@ function TimerLevel() {
 
 // Compte à rebours
 function startCountdown(callback) {
-    countdown = 5; 
+    countdown = 0; 
     const countdownInterval = setInterval(() => {
         document.getElementById("countdown").textContent = `Départ dans : ${countdown}`;
         countdown--;
@@ -165,7 +181,7 @@ function Timeout() {
     // Geler les joueurs
     players.forEach(player => {
         player.speed = 0;
-        console.log("speed after geler :" +player.speed);
+        console.log("speed after geler :" ,player.speed);
         player.dx = 0;
         player.dy = 0;
     });
@@ -198,10 +214,11 @@ function NextLevel() {
         
 
         players.forEach(player => {
-            player.speed = 1.5; // Réinitialiser la vitesse
+            player.PlayerLevelCompleted = false; // Réinitialiser le statut du joueur
+            player.speed = 1.35; // Réinitialiser la vitesse
             player.x = 1;
             player.y = 1;
-            console.log("speed after next level :" + player.speed);
+            //console.log("speed after next level :" + player.speed);
         });
     } else {
         document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
@@ -222,6 +239,7 @@ function gameLoop() {
     bonus.forEach(bonus => bonus.draw(ctx));
     malus.forEach(malus => malus.draw(ctx));
     // InverseControl.forEach(InverseControl => InverseControl.draw(ctx));     //---------------
+    deathZone.forEach(deathZone => deathZone.draw(ctx));
 
     
     goal.draw(ctx);
@@ -238,10 +256,10 @@ function gameLoop() {
     // Détection de beaucoup de chose : collision avec les obstacles, le but, les bonus, les malus, les InverseControl
     players.forEach(player => {
         if (
-            player.x < goal.x + goal.size &&
-            player.x + player.size > goal.x - goal.size &&
-            player.y < goal.y + goal.size &&
-            player.y + player.size > goal.y - goal.size
+            player.x < goal.x + goal.width &&
+            player.x + player.size > goal.x &&
+            player.y < goal.y + goal.height &&
+            player.y + player.size > goal.y
         ) {
             if (!player.PlayerLevelCompleted){
                 player.PlayerLevelCompleted = true;
@@ -289,7 +307,7 @@ function gameLoop() {
                 player.y < SingleMalus.y + SingleMalus.height &&
                 player.y + player.size > SingleMalus.y
             ) {
-                if(speed === 1.35){
+                if(player.speed === 1.35){
                     player.speed = 1; // Ralentissement
                     setTimeout(() => {
                         if (timer >= 0){
@@ -305,16 +323,29 @@ function gameLoop() {
                 player.y < SingleInverseControl.y + SingleInverseControl.height &&
                 player.y + player.size > SingleInverseControl.y
             ) {
-                if(speed = 1.35){
+                if(player.speed = 1.35){
                     player.speed = 1; // Inversion de contrôle
                     setTimeout(() => {
                         player.speed = 1.35; // Vitesse normale après 3 secondes
                     }, 1500);
                 }
             }
-        }); 
+        });
+        deathZone.forEach(singleDeathZone => {
+            if (
+                player.x < singleDeathZone.x + singleDeathZone.width &&
+                player.x + player.size > singleDeathZone.x &&
+                player.y < singleDeathZone.y + singleDeathZone.height &&
+                player.y + player.size > singleDeathZone.y
+            ) {
+                // Réinitialiser le joueur
+                player.x = 1;
+                player.y = 1;
+                // To do animation
+            }
+        });
     });
-
+    
     requestAnimationFrame(gameLoop);
 }
 
