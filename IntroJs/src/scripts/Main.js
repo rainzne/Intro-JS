@@ -274,9 +274,8 @@ function gameLoop() {
                 setTimeout(() => {
                     NextLevel();
                     TimerLevel();
-                    gameLoop();
-                }, 2000);
-            }
+                    }, 2000);
+                }
             }
         }
         bonus.forEach(singleBonus => {
