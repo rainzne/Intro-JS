@@ -199,7 +199,7 @@ function init() {
         ];
 
     const levelInstance = level_data[0]; 
-    currentLevelIndex = 9;
+    currentLevelIndex = 0;
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown(() => {
         gameLoop();
