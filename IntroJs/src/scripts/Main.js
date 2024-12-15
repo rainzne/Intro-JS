@@ -189,8 +189,7 @@ function init() {
         ];
 
     const levelInstance = level_data[0]; 
-    currentLevelIndex = 8;
-    currentLevelIndex = 4;
+    currentLevelIndex = 0;
     levelInstance.loadLevel(currentLevelIndex);
     startCountdown(() => {
         gameLoop();
@@ -279,7 +278,7 @@ function NextLevel() {
         
         document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
         
-        window.location.href = "EndGame.html";
+        window.location.href = "Endgame.html";
         afficherScoresEnd();
     }
 }
