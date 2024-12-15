@@ -205,7 +205,7 @@ function NextLevel() {
         });
     } else {
         document.getElementById("countdown").textContent = "Tous les niveaux sont terminés !";
-        window.location.href = "../src/EndGame.html";
+        window.location.href = "IntroJs/src/EndGame.html";
     }
 }
 
@@ -213,7 +213,7 @@ function NextLevel() {
 
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //draw backgournd with patern defined above
+    
     const patern = ctx.createPattern(background, 'repeat');
     ctx.fillStyle = patern;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
