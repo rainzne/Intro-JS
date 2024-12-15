@@ -54,6 +54,18 @@ class Player {
                 this.img[i-1].src = `./textures/sprite/player_red/idle_${i}.png`;
             }
         }
+        else if (this.color == "green"){
+            for(let i = 1; i <=2 ; i++){
+                this.img[i-1] = new Image();
+                this.img[i-1].src = `./textures/sprite/player_green/idle_${i}.png`;
+            }
+        }
+        else if (this.color == "yellow"){
+            for(let i = 1; i <=2 ; i++){
+                this.img[i-1] = new Image();
+                this.img[i-1].src = `./textures/sprite/player_yellow/idle_${i}.png`;
+            }
+        }
     }
 
     draw(ctx) {
